@@ -1,9 +1,30 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
+import { checkValidateData } from "../utils/validate";
+
 
 const Login = () => {
 
   const [isSignInForm,setIsSignInForm] = useState(true)
+  const [errorMessage,setErrorMessage] = useState(null)
+
+  // useRef used to refer the value of the input field
+  const email = useRef(null);
+  const password = useRef(null);
+
+
+  const handleButtonClick = () =>{
+    // Validata the form data
+
+    // calling validation function from the utils/validate.js  
+    const message =  checkValidateData(email.current.value,password.current.value)
+    setErrorMessage(message);
+    if(message) return;
+
+    //Sign In Sign Up Logic
+    
+
+  }
 
   const toggleSignUp= () =>
   {
@@ -19,7 +40,7 @@ const Login = () => {
         />
       </div>
       <div className="bg-black w-3/12 absolute p-12  my-36 mx-auto right-0 left-0 text-white rounded-lg opacity-85">
-        <form className="">
+        <form className="" onSubmit={(e)=>e.preventDefault()}>
           <h1 className="font-bold text-3xl py-4">{isSignInForm ? "Sign In" : "Sign Up"} </h1>
           {!isSignInForm && 
           <input
@@ -29,16 +50,19 @@ const Login = () => {
           />
         }
           <input  
+            ref={email} // give ref if using useRef state
             type="text"
             placeholder="Email Address"
             className="p-2 my-2 bg-gray-600 w-full rounded-sm"
           />
           <input
+            ref={(password)}
             type="password"
             placeholder="password"
             className="p-2 my-2 bg-gray-600 w-full rounded-sm"
           />
-          <button className="p-2 my-4 rounded-sm bg-red-500 font-bold w-full cursor-pointer">
+          <p className="text-red-500 font-bold text-lg py-2">{errorMessage}</p>
+          <button className="p-2 my-4 rounded-sm bg-red-500 font-bold w-full cursor-pointer" onClick={handleButtonClick}>
              {isSignInForm?"Sign In" : "Sign up"} 
           </button>
           <div className="flex items-center justify-center">
