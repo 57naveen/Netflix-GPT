@@ -3,9 +3,9 @@ import Header from "./Header";
 import { checkValidateData } from "../utils/validate";
 import { createUserWithEmailAndPassword,signInWithEmailAndPassword,updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {addUser} from "../utils/userSlice"
+import { Login_BG } from "../utils/constants";
 
 
 const Login = () => {
@@ -16,7 +16,6 @@ const Login = () => {
   // useRef used to refer the value of the input field
   const email = useRef(null);
   const password = useRef(null);
-  const navigate = useNavigate();
   const name     = useRef(null);
   const dispatch = useDispatch();
 
@@ -49,7 +48,7 @@ const Login = () => {
             //inserting the user object into our slice using dispatch function
           dispatch(addUser({uid:uid,email:email,displayName:displayName}))
 
-          navigate("/browse")
+          
 
         }).catch((error) => {
           setErrorMessage(error.message)
@@ -69,7 +68,7 @@ const Login = () => {
         // Signed in 
         const user = userCredential.user;
         console.log(user)
-        navigate("/browse")
+       
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -89,7 +88,7 @@ const Login = () => {
       <Header />
       <div className="absolute">
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/04ef06cc-5f81-4a8e-8db0-6430ba4af286/web/IN-en-20250224-TRIFECTA-perspective_3a9c67b5-1d1d-49be-8499-d179f6389935_large.jpg"
+          src={Login_BG}
           alt="logo"
         />
       </div>
